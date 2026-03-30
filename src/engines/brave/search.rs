@@ -2,6 +2,7 @@ use crate::{
     types::SearchResult,
     utils::http_client::{build_client, chrome_headers},
 };
+use reqwest::header::{HeaderName, HeaderValue};
 use scraper::{Html, Selector};
 
 const BRAVE_BASE: &str = "https://search.brave.com/search";
@@ -78,7 +79,44 @@ pub async fn search_brave(query: &str, limit: usize) -> anyhow::Result<Vec<Searc
             offset
         );
         let mut headers = chrome_headers();
-        headers.insert("referer", "https://duckduckgo.com/".parse().unwrap());
+        headers.insert(
+            HeaderName::from_static("referer"),
+            HeaderValue::from_static("https://search.brave.com/"),
+        );
+        headers.insert(
+            HeaderName::from_static("sec-ch-ua"),
+            HeaderValue::from_static(
+                "\"Chromium\";v=\"133\", \"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\"",
+            ),
+        );
+        headers.insert(
+            HeaderName::from_static("sec-ch-ua-mobile"),
+            HeaderValue::from_static("?0"),
+        );
+        headers.insert(
+            HeaderName::from_static("sec-ch-ua-platform"),
+            HeaderValue::from_static("\"Windows\""),
+        );
+        headers.insert(
+            HeaderName::from_static("sec-fetch-dest"),
+            HeaderValue::from_static("document"),
+        );
+        headers.insert(
+            HeaderName::from_static("sec-fetch-mode"),
+            HeaderValue::from_static("navigate"),
+        );
+        headers.insert(
+            HeaderName::from_static("sec-fetch-site"),
+            HeaderValue::from_static("same-origin"),
+        );
+        headers.insert(
+            HeaderName::from_static("sec-fetch-user"),
+            HeaderValue::from_static("?1"),
+        );
+        headers.insert(
+            HeaderName::from_static("upgrade-insecure-requests"),
+            HeaderValue::from_static("1"),
+        );
 
         let resp = client.get(&url).headers(headers).send().await?;
         let html = resp.text().await?;

@@ -12,7 +12,8 @@ pub fn build_client() -> anyhow::Result<Client> {
         .deflate(true)
         .brotli(true)
         .timeout(std::time::Duration::from_secs(20))
-        .danger_accept_invalid_certs(false);
+        .danger_accept_invalid_certs(false)
+        .http2_adaptive_window(true);
 
     if let Some(proxy_url) = CONFIG.effective_proxy_url() {
         let proxy = reqwest::Proxy::all(&proxy_url)?;
