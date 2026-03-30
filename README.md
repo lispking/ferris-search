@@ -105,13 +105,6 @@ claude mcp add -s user ferris-search $(which ferris-search) \
   -e DEFAULT_SEARCH_ENGINE=bing
 ```
 
-### Docker
-
-```bash
-docker build -t ferris-search .
-docker run -e DEFAULT_SEARCH_ENGINE=bing ferris-search
-```
-
 ## MCP Tools
 
 ### `web_search`
