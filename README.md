@@ -15,11 +15,20 @@ Inspired by [open-webSearch](https://github.com/Aas-ee/open-webSearch) — this 
 
 ## Quick Start
 
-### Build from source
+### Install from source
 
 ```bash
-cargo build --release
-# binary: target/release/ferris-search
+cargo install --path .
+```
+
+This installs the `ferris-search` binary to `~/.cargo/bin/ferris-search`. Make sure `~/.cargo/bin` is in your `PATH`.
+
+To find the installed binary path:
+
+```bash
+which ferris-search
+# or
+echo "$(cargo home 2>/dev/null || echo $HOME/.cargo)/bin/ferris-search"
 ```
 
 ### Claude Desktop / Cursor configuration
@@ -28,7 +37,7 @@ cargo build --release
 {
   "mcpServers": {
     "ferris-search": {
-      "command": "/path/to/ferris-search",
+      "command": "/Users/<you>/.cargo/bin/ferris-search",
       "env": {
         "DEFAULT_SEARCH_ENGINE": "bing"
       }
@@ -37,19 +46,31 @@ cargo build --release
 }
 ```
 
+Replace the path with the output of `which ferris-search`.
+
 ### Claude Code (claude mcp add)
 
+Add for the current project only:
+
 ```bash
-claude mcp add ferris-search /path/to/ferris-search
+claude mcp add ferris-search $(which ferris-search)
+```
+
+Add globally for all projects (`-s user`):
+
+```bash
+claude mcp add -s user ferris-search $(which ferris-search)
 ```
 
 With environment variables:
 
 ```bash
-claude mcp add ferris-search /path/to/ferris-search \
+claude mcp add -s user ferris-search $(which ferris-search) \
   -e DEFAULT_SEARCH_ENGINE=bing \
   -e ALLOWED_SEARCH_ENGINES=bing,duckduckgo,brave
 ```
+
+> `-s user` registers the server in your user-level config (`~/.claude.json`) so it is available across all projects, not just the current one.
 
 ### Docker
 
