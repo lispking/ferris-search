@@ -5,7 +5,7 @@
 ### DEFAULT_SEARCH_ENGINE
 
 - **Default:** `bing`
-- **Values:** any of `bing`, `duckduckgo`, `brave`, `baidu`, `csdn`, `juejin`, `exa`, `zhihu`, `linuxdo`
+- **Values:** any of `bing`, `duckduckgo`, `brave`, `baidu`, `csdn`, `juejin`, `exa`, `zhihu`, `linuxdo`, `jina`, `tavily`
 - **Effect:** Used when `web_search` is called without an `engines` parameter
 
 ```bash
@@ -32,6 +32,18 @@ ALLOWED_SEARCH_ENGINES=baidu,csdn,juejin,zhihu,bing
 
 ---
 
+### BRAVE_API_KEY
+
+- **Default:** unset
+- **Effect:** Required to use the `brave` engine. Without it, `brave` calls will fail.
+- **Get a key:** https://brave.com/search/api/
+
+```bash
+BRAVE_API_KEY=your-brave-api-key
+```
+
+---
+
 ### EXA_API_KEY
 
 - **Default:** unset
@@ -40,6 +52,30 @@ ALLOWED_SEARCH_ENGINES=baidu,csdn,juejin,zhihu,bing
 
 ```bash
 EXA_API_KEY=exa-xxxxxxxxxxxxxxxx
+```
+
+---
+
+### JINA_API_KEY
+
+- **Default:** unset
+- **Effect:** Required to use the `jina` engine. Without it, `jina` calls will fail.
+- **Get a key:** https://jina.ai
+
+```bash
+JINA_API_KEY=jina_xxxxxxxxxxxxxxxx
+```
+
+---
+
+### TAVILY_API_KEY
+
+- **Default:** unset
+- **Effect:** Required to use the `tavily` engine. Without it, `tavily` calls will fail.
+- **Get a key:** https://tavily.com
+
+```bash
+TAVILY_API_KEY=tvly-xxxxxxxxxxxxxxxx
 ```
 
 ---

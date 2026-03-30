@@ -18,13 +18,15 @@ Search the web using one or more engines. Supports concurrent fan-out.
 |-----------|---------|
 | `bing` | `microsoft bing` |
 | `duckduckgo` | `ddg`, `duck duck go` |
-| `brave` | `brave search` |
+| `brave` | `brave search` | (requires `BRAVE_API_KEY`) |
 | `baidu` | `百度` |
 | `csdn` | — |
 | `juejin` | `掘金` |
-| `exa` | — (requires `EXA_API_KEY`) |
+| `exa` | — | (requires `EXA_API_KEY`) |
 | `zhihu` | `知乎` |
 | `linuxdo` | `linux.do` |
+| `jina` | `jina.ai` | (requires `JINA_API_KEY`) |
+| `tavily` | — | (requires `TAVILY_API_KEY`) |
 
 ### Output Format
 

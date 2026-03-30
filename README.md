@@ -9,7 +9,7 @@ Inspired by [open-webSearch](https://github.com/Aas-ee/open-webSearch) — this 
 - **Multi-engine fan-out** — search across multiple engines simultaneously with a single call
 - **11 search engines** — Bing, DuckDuckGo, Brave, Baidu, CSDN, Juejin, Exa, Zhihu, LinuxDo, Jina, Tavily
 - **7 MCP tools** — search + 6 article/content fetchers
-- **No API keys required** for most engines (Exa, Jina, and Tavily require API keys)
+- **No API keys required** for most engines (Brave, Exa, Jina, and Tavily require API keys)
 - **Single binary** — ~8 MB, no runtime dependencies
 - **Proxy support** — HTTP/SOCKS proxy via env var
 
@@ -134,6 +134,7 @@ Fetch full article content from the respective platforms.
 | `ALLOWED_SEARCH_ENGINES` | all | Comma-separated allowlist, e.g. `bing,duckduckgo` |
 | `USE_PROXY` | `false` | Enable HTTP proxy |
 | `PROXY_URL` | `http://127.0.0.1:7890` | Proxy URL (HTTP or SOCKS5) |
+| `BRAVE_API_KEY` | — | Required when using the `brave` engine |
 | `EXA_API_KEY` | — | Required when using the `exa` engine |
 | `JINA_API_KEY` | — | Required when using the `jina` engine |
 | `TAVILY_API_KEY` | — | Required when using the `tavily` engine |
