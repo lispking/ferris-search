@@ -2,8 +2,8 @@ use crate::{
     engines::{
         baidu::search_baidu, bing::search_bing, brave::search_brave, csdn::search_csdn,
         duckduckgo::search_duckduckgo, exa::search_exa, firecrawl::search_firecrawl,
-        jina::search_jina, juejin::search_juejin, linuxdo::search_linuxdo,
-        tavily::search_tavily, zhihu::search_zhihu,
+        jina::search_jina, juejin::search_juejin, linuxdo::search_linuxdo, tavily::search_tavily,
+        zhihu::search_zhihu,
     },
     types::SearchResult,
 };
