@@ -59,11 +59,7 @@ pub async fn search_tavily(query: &str, limit: usize) -> anyhow::Result<Vec<Sear
                 title: r.title.unwrap_or_default(),
                 url: r.url.clone(),
                 description,
-                source: r.url
-                    .split('/')
-                    .nth(2)
-                    .unwrap_or_default()
-                    .to_string(),
+                source: r.url.split('/').nth(2).unwrap_or_default().to_string(),
                 engine: "tavily".into(),
             }
         })
