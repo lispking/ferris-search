@@ -119,6 +119,15 @@ pub async fn search_brave(query: &str, limit: usize) -> anyhow::Result<Vec<Searc
         );
 
         let resp = client.get(&url).headers(headers).send().await?;
+        let status = resp.status();
+        if status == reqwest::StatusCode::TOO_MANY_REQUESTS {
+            return Err(anyhow::anyhow!(
+                "Brave Search rate limited (429): try again later"
+            ));
+        }
+        if !status.is_success() {
+            return Err(anyhow::anyhow!("Brave Search returned HTTP {}", status));
+        }
         let html = resp.text().await?;
         let results = parse_results(&html, limit - all.len());
         if results.is_empty() {
