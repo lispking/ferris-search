@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "ferris-search",
+  "version": "0.1.0",
+  "description": "A blazing-fast MCP server for multi-engine web search, written in Rust. Supports 9 search engines and 7 MCP tools with no runtime dependencies.",
+  "owner": {
+    "name": "lispking",
+    "url": "https://github.com/lispking"
+  },
+  "plugins": [
+    {
+      "name": "ferris-search",
+      "description": "Multi-engine web search MCP server. Search across Bing, DuckDuckGo, Brave, Baidu, CSDN, Juejin, Exa, Zhihu, and LinuxDo simultaneously. Includes article fetchers for GitHub, CSDN, Juejin, Zhihu, and LinuxDo.",
+      "source": "./",
+      "category": "search"
+    }
+  ]
+}

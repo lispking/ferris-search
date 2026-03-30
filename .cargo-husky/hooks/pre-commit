@@ -1,0 +1,22 @@
+#!/bin/bash
+# Pre-commit hook for agent-io
+# Runs cargo check, fmt, clippy, and test before committing
+# This hook is automatically installed via cargo-husky
+
+set -e
+
+echo "Running pre-commit checks..."
+
+echo "==> cargo check"
+cargo check --all-features --quiet
+
+echo "==> cargo fmt"
+cargo fmt --all -- --check
+
+echo "==> cargo clippy"
+cargo clippy --all-features -- -D warnings
+
+echo "==> cargo test"
+cargo test --all-features --quiet
+
+echo "All checks passed!"

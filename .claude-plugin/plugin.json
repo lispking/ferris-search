@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "ferris-search",
+  "version": "0.1.0",
+  "description": "A blazing-fast MCP server for multi-engine web search, written in Rust. Supports 9 search engines and 7 MCP tools with no runtime dependencies.",
+  "author": {
+    "name": "lispking",
+    "url": "https://github.com/lispking"
+  },
+  "repository": "https://github.com/lispking/ferris-search",
+  "homepage": "https://github.com/lispking/ferris-search",
+  "license": "Apache-2.0",
+  "keywords": [
+    "search",
+    "mcp",
+    "rust",
+    "web-search",
+    "multi-engine",
+    "bing",
+    "duckduckgo",
+    "brave"
+  ]
+}
