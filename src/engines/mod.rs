@@ -4,6 +4,8 @@ pub mod brave;
 pub mod csdn;
 pub mod duckduckgo;
 pub mod exa;
+pub mod jina;
 pub mod juejin;
 pub mod linuxdo;
+pub mod tavily;
 pub mod zhihu;

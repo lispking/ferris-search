@@ -7,6 +7,8 @@ pub struct AppConfig {
     pub use_proxy: bool,
     pub proxy_url: String,
     pub exa_api_key: Option<String>,
+    pub jina_api_key: Option<String>,
+    pub tavily_api_key: Option<String>,
 }
 
 impl AppConfig {
@@ -27,6 +29,8 @@ impl AppConfig {
                 "brave".into(),
                 "juejin".into(),
                 "zhihu".into(),
+                "jina".into(),
+                "tavily".into(),
             ]
         } else {
             allowed_str
@@ -44,6 +48,8 @@ impl AppConfig {
             env::var("PROXY_URL").unwrap_or_else(|_| "http://127.0.0.1:7890".to_string());
 
         let exa_api_key = env::var("EXA_API_KEY").ok();
+        let jina_api_key = env::var("JINA_API_KEY").ok();
+        let tavily_api_key = env::var("TAVILY_API_KEY").ok();
 
         Self {
             default_search_engine,
@@ -51,6 +57,8 @@ impl AppConfig {
             use_proxy,
             proxy_url,
             exa_api_key,
+            jina_api_key,
+            tavily_api_key,
         }
     }
 
