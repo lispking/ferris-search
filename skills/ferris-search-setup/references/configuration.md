@@ -5,7 +5,7 @@
 ### DEFAULT_SEARCH_ENGINE
 
 - **Default:** `bing`
-- **Values:** any of `bing`, `duckduckgo`, `brave`, `baidu`, `csdn`, `juejin`, `exa`, `zhihu`, `linuxdo`, `jina`, `tavily`
+- **Values:** any of `bing`, `duckduckgo`, `brave`, `baidu`, `csdn`, `juejin`, `exa`, `firecrawl`, `zhihu`, `linuxdo`, `jina`, `tavily`
 - **Effect:** Used when `web_search` is called without an `engines` parameter
 
 ```bash
@@ -52,6 +52,18 @@ BRAVE_API_KEY=your-brave-api-key
 
 ```bash
 EXA_API_KEY=exa-xxxxxxxxxxxxxxxx
+```
+
+---
+
+### FIRECRAWL_API_KEY
+
+- **Default:** unset
+- **Effect:** Required to use the `firecrawl` engine. Without it, `firecrawl` calls will fail.
+- **Get a key:** https://firecrawl.dev
+
+```bash
+FIRECRAWL_API_KEY=fc-xxxxxxxxxxxxxxxx
 ```
 
 ---

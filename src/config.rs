@@ -8,6 +8,7 @@ pub struct AppConfig {
     pub proxy_url: String,
     pub brave_api_key: Option<String>,
     pub exa_api_key: Option<String>,
+    pub firecrawl_api_key: Option<String>,
     pub jina_api_key: Option<String>,
     pub tavily_api_key: Option<String>,
 }
@@ -30,6 +31,7 @@ impl AppConfig {
                 "brave".into(),
                 "juejin".into(),
                 "zhihu".into(),
+                "firecrawl".into(),
                 "jina".into(),
                 "tavily".into(),
             ]
@@ -50,6 +52,7 @@ impl AppConfig {
 
         let brave_api_key = env::var("BRAVE_API_KEY").ok();
         let exa_api_key = env::var("EXA_API_KEY").ok();
+        let firecrawl_api_key = env::var("FIRECRAWL_API_KEY").ok();
         let jina_api_key = env::var("JINA_API_KEY").ok();
         let tavily_api_key = env::var("TAVILY_API_KEY").ok();
 
@@ -60,6 +63,7 @@ impl AppConfig {
             proxy_url,
             brave_api_key,
             exa_api_key,
+            firecrawl_api_key,
             jina_api_key,
             tavily_api_key,
         }

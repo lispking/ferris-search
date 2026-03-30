@@ -33,7 +33,7 @@ impl WebSearchHandler {
     /// Search the web using the configured search engine
     #[tool(
         name = "web_search",
-        description = "Search the web using one or more engines. engines parameter accepts an array: [\"bing\", \"duckduckgo\", ...]. Supported: bing, duckduckgo, brave, baidu, csdn, juejin, exa, zhihu, linuxdo, jina, tavily."
+        description = "Search the web using one or more engines. engines parameter accepts an array: [\"bing\", \"duckduckgo\", ...]. Supported: bing, duckduckgo, brave, baidu, csdn, juejin, exa, firecrawl, zhihu, linuxdo, jina, tavily."
     )]
     pub async fn web_search(&self, p: Parameters<WebSearchParams>) -> String {
         let params = p.0;

@@ -7,9 +7,9 @@ Inspired by [open-webSearch](https://github.com/Aas-ee/open-webSearch) — this 
 ## Features
 
 - **Multi-engine fan-out** — search across multiple engines simultaneously with a single call
-- **11 search engines** — Bing, DuckDuckGo, Brave, Baidu, CSDN, Juejin, Exa, Zhihu, LinuxDo, Jina, Tavily
+- **12 search engines** — Bing, DuckDuckGo, Brave, Baidu, CSDN, Juejin, Exa, Firecrawl, Zhihu, LinuxDo, Jina, Tavily
 - **7 MCP tools** — search + 6 article/content fetchers
-- **No API keys required** for most engines (Brave, Exa, Jina, and Tavily require API keys)
+- **No API keys required** for most engines (Brave, Exa, Firecrawl, Jina, and Tavily require API keys)
 - **Single binary** — ~8 MB, no runtime dependencies
 - **Proxy support** — HTTP/SOCKS proxy via env var
 
@@ -99,7 +99,7 @@ Search the web using one or more engines simultaneously.
 | `engines` | string[] | server default | Engines to search (fan-out if multiple) |
 | `limit` | number | 10 | Max results per engine (1–50) |
 
-Supported engines: `bing`, `duckduckgo`, `brave`, `baidu`, `csdn`, `juejin`, `exa`, `zhihu`, `linuxdo`, `jina`, `tavily`
+Supported engines: `bing`, `duckduckgo`, `brave`, `baidu`, `csdn`, `juejin`, `exa`, `firecrawl`, `zhihu`, `linuxdo`, `jina`, `tavily`
 
 ### `fetch_web_content`
 
@@ -135,6 +135,7 @@ Fetch full article content from the respective platforms.
 | `USE_PROXY` | `false` | Enable HTTP proxy |
 | `PROXY_URL` | `http://127.0.0.1:7890` | Proxy URL (HTTP or SOCKS5) |
 | `BRAVE_API_KEY` | — | Required when using the `brave` engine |
+| `FIRECRAWL_API_KEY` | — | Required when using the `firecrawl` engine |
 | `EXA_API_KEY` | — | Required when using the `exa` engine |
 | `JINA_API_KEY` | — | Required when using the `jina` engine |
 | `TAVILY_API_KEY` | — | Required when using the `tavily` engine |

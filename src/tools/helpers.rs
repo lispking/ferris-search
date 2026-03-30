@@ -1,8 +1,9 @@
 use crate::{
     engines::{
         baidu::search_baidu, bing::search_bing, brave::search_brave, csdn::search_csdn,
-        duckduckgo::search_duckduckgo, exa::search_exa, jina::search_jina, juejin::search_juejin,
-        linuxdo::search_linuxdo, tavily::search_tavily, zhihu::search_zhihu,
+        duckduckgo::search_duckduckgo, exa::search_exa, firecrawl::search_firecrawl,
+        jina::search_jina, juejin::search_juejin, linuxdo::search_linuxdo,
+        tavily::search_tavily, zhihu::search_zhihu,
     },
     types::SearchResult,
 };
@@ -21,6 +22,7 @@ pub fn normalize_engine(s: &str) -> String {
         "linuxdo" | "linux.do" => "linuxdo".into(),
         "jina" | "jina.ai" => "jina".into(),
         "tavily" => "tavily".into(),
+        "firecrawl" => "firecrawl".into(),
         _ => cleaned,
     }
 }
@@ -65,6 +67,7 @@ pub async fn do_search(
         "csdn" => search_csdn(query, limit).await,
         "juejin" => search_juejin(query, limit).await,
         "exa" => search_exa(query, limit).await,
+        "firecrawl" => search_firecrawl(query, limit).await,
         "zhihu" => search_zhihu(query, limit).await,
         "linuxdo" => search_linuxdo(query, limit).await,
         "jina" => search_jina(query, limit).await,

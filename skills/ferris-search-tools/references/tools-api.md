@@ -23,6 +23,7 @@ Search the web using one or more engines. Supports concurrent fan-out.
 | `csdn` | — |
 | `juejin` | `掘金` |
 | `exa` | — | (requires `EXA_API_KEY`) |
+| `firecrawl` | — | (requires `FIRECRAWL_API_KEY`) |
 | `zhihu` | `知乎` |
 | `linuxdo` | `linux.do` |
 | `jina` | `jina.ai` | (requires `JINA_API_KEY`) |

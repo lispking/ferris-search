@@ -3,7 +3,7 @@ name: ferris-search-setup
 description: |
   CRITICAL: Use for ferris-search installation and configuration. Triggers on:
   ferris-search install, mcp add ferris-search, setup ferris-search,
-  DEFAULT_SEARCH_ENGINE, ALLOWED_SEARCH_ENGINES, BRAVE_API_KEY, EXA_API_KEY, JINA_API_KEY, TAVILY_API_KEY, USE_PROXY,
+  DEFAULT_SEARCH_ENGINE, ALLOWED_SEARCH_ENGINES, BRAVE_API_KEY, EXA_API_KEY, FIRECRAWL_API_KEY, JINA_API_KEY, TAVILY_API_KEY, USE_PROXY,
   ferris-search config, ferris-search build, ferris-search Docker,
   安装ferris-search, 配置搜索引擎, MCP服务器配置, 代理设置
 ---
@@ -80,6 +80,7 @@ docker run -e DEFAULT_SEARCH_ENGINE=bing ferris-search
 | `ALLOWED_SEARCH_ENGINES` | all 9 engines | Comma-separated allow-list |
 | `BRAVE_API_KEY` | — | Required only for `brave` engine |
 | `EXA_API_KEY` | — | Required only for `exa` engine |
+| `FIRECRAWL_API_KEY` | — | Required only for `firecrawl` engine |
 | `JINA_API_KEY` | — | Required only for `jina` engine |
 | `TAVILY_API_KEY` | — | Required only for `tavily` engine |
 | `USE_PROXY` | `false` | Enable HTTP/SOCKS5 proxy |
@@ -92,7 +93,7 @@ docker run -e DEFAULT_SEARCH_ENGINE=bing ferris-search
 
 1. Always build with `--release` for production use (~8 MB binary, <10 ms startup)
 2. Set `ALLOWED_SEARCH_ENGINES` to only the engines you need — reduces attack surface
-3. Never commit `EXA_API_KEY`, `JINA_API_KEY`, `TAVILY_API_KEY`, or `BRAVE_API_KEY` to source control — use env var injection
+3. Never commit `EXA_API_KEY`, `FIRECRAWL_API_KEY`, `JINA_API_KEY`, `TAVILY_API_KEY`, or `BRAVE_API_KEY` to source control — use env var injection
 4. For Chinese content workflows, include `baidu`, `csdn`, `juejin`, `zhihu` in allow-list
 
 ## When Answering Questions
