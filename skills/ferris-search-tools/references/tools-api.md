@@ -4,37 +4,36 @@
 
 Search the web using one or more engines. Supports concurrent fan-out.
 
-### Parameters
+### web_search Parameters
 
-| Parameter | Type | Required | Default | Constraints |
-|-----------|------|----------|---------|-------------|
-| `query` | string | yes | — | Any search query |
-| `engines` | string[] | no | `DEFAULT_SEARCH_ENGINE` env var | Must be array, see engine list below |
-| `limit` | number | no | 10 | 1–50 (clamped) |
+| Parameter | Type     | Required | Default                         | Constraints                           |
+| --------- | -------- | -------- | ------------------------------- | ------------------------------------- |
+| `query`   | string   | yes      | —                               | Any search query                      |
+| `engines` | string[] | no       | `DEFAULT_SEARCH_ENGINE` env var | Must be array, see engine list below  |
+| `limit`   | number   | no       | 10                              | 1–50 (clamped)                        |
 
 ### Engine Names & Aliases
 
-| Canonical | Aliases |
-|-----------|---------|
-| `bing` | `microsoft bing` |
-| `duckduckgo` | `ddg`, `duck duck go` |
-| `brave` | `brave search` | (requires `BRAVE_API_KEY`) |
-| `baidu` | `百度` |
-| `csdn` | — |
-| `juejin` | `掘金` |
-| `exa` | — | (requires `EXA_API_KEY`) |
-| `firecrawl` | — | (requires `FIRECRAWL_API_KEY`) |
-| `zhihu` | `知乎` |
-| `linuxdo` | `linux.do` |
-| `jina` | `jina.ai` | (requires `JINA_API_KEY`) |
-| `tavily` | — | (requires `TAVILY_API_KEY`) |
-| `github` | `github repos`, `github repo` | (optional `GITHUB_TOKEN`; searches repositories) |
-| `github_code` | `github code` | (optional `GITHUB_TOKEN`; searches code files) |
+- `bing`: aliases `microsoft bing`
+- `duckduckgo`: aliases `ddg`, `duck duck go`
+- `brave`: aliases `brave search`; requires `BRAVE_API_KEY`
+- `baidu`: aliases `百度`
+- `csdn`: no aliases
+- `juejin`: aliases `掘金`
+- `exa`: no aliases; requires `EXA_API_KEY`
+- `firecrawl`: no aliases; requires `FIRECRAWL_API_KEY`
+- `zhihu`: aliases `知乎`
+- `linuxdo`: aliases `linux.do`
+- `jina`: aliases `jina.ai`; requires `JINA_API_KEY`
+- `tavily`: no aliases; requires `TAVILY_API_KEY`
+- `github`: aliases `github repos`, `github repo`; optional `GITHUB_TOKEN`; searches repositories
+- `github_code`: aliases `github code`; optional `GITHUB_TOKEN`; searches code files
 
-### Output Format
+### fetch_web_content Output Format
 
 Single engine:
-```
+
+```text
 Engine: bing
 Total: 10
 
@@ -45,7 +44,8 @@ Description: ...
 ```
 
 Multi-engine:
-```
+
+```text
 Total results: 25
 
 ## Results from bing
@@ -63,16 +63,16 @@ Total results: 25
 
 Fetch and extract text from any public URL using HTML scraping.
 
-### Parameters
+### fetch_web_content Parameters
 
-| Parameter | Type | Required | Default | Constraints |
-|-----------|------|----------|---------|-------------|
-| `url` | string | yes | — | Must be public HTTP/HTTPS |
-| `max_chars` | number | no | 30000 | max 200000 |
+| Parameter   | Type   | Required | Default | Constraints               |
+| ----------- | ------ | -------- | ------- | ------------------------- |
+| `url`       | string | yes      | —       | Must be public HTTP/HTTPS |
+| `max_chars` | number | no       | 30000   | max 200000                |
 
 ### Output Format
 
-```
+```text
 Title: Page Title
 URL: https://...
 
@@ -82,6 +82,8 @@ URL: https://...
 ```
 
 ### URL Safety Rules
+
+All fetch tools enforce the following SSRF protection:
 
 - Must start with `http://` or `https://`
 - Must not be a private/internal IP (10.x, 192.168.x, 127.x, etc.)
@@ -93,15 +95,15 @@ URL: https://...
 
 Fetch README from a GitHub repository via the GitHub raw content API.
 
-### Parameters
+### fetch_github_readme Parameters
 
-| Parameter | Type | Required | Constraints |
-|-----------|------|----------|-------------|
-| `url` | string | yes | Must be a `github.com` URL |
+| Parameter | Type   | Required | Constraints                    |
+| --------- | ------ | -------- | ------------------------------ |
+| `url`     | string | yes      | URL host must be `github.com`  |
 
 ### Supported URL Formats
 
-```
+```text
 https://github.com/owner/repo
 https://github.com/owner/repo/tree/branch
 ```
@@ -116,11 +118,11 @@ Raw README content (markdown text).
 
 Fetch full article from CSDN blog.
 
-### Parameters
+### fetch_csdn_article Parameters
 
-| Parameter | Type | Required | Constraints |
-|-----------|------|----------|-------------|
-| `url` | string | yes | Must contain `csdn.net` |
+| Parameter | Type   | Required | Constraints                                  |
+| --------- | ------ | -------- | -------------------------------------------- |
+| `url`     | string | yes      | URL host must be `csdn.net` or its subdomain |
 
 ---
 
@@ -128,11 +130,9 @@ Fetch full article from CSDN blog.
 
 Fetch full article from Juejin.
 
-### Parameters
+### fetch_juejin_article Parameters
 
-| Parameter | Type | Required | Constraints |
-|-----------|------|----------|-------------|
-| `url` | string | yes | Must contain `juejin.cn` AND `/post/` |
+- `url` (`string`, required): URL host must be `juejin.cn` or its subdomain, and the path must contain `/post/`
 
 ---
 
@@ -140,11 +140,11 @@ Fetch full article from Juejin.
 
 Fetch full article from Zhihu.
 
-### Parameters
+### fetch_zhihu_article Parameters
 
-| Parameter | Type | Required | Constraints |
-|-----------|------|----------|-------------|
-| `url` | string | yes | Must contain `zhihu.com` |
+| Parameter | Type   | Required | Constraints                                   |
+| --------- | ------ | -------- | --------------------------------------------- |
+| `url`     | string | yes      | URL host must be `zhihu.com` or its subdomain |
 
 ---
 
@@ -152,8 +152,6 @@ Fetch full article from Zhihu.
 
 Fetch full topic from linux.do forum.
 
-### Parameters
+### fetch_linuxdo_article Parameters
 
-| Parameter | Type | Required | Constraints |
-|-----------|------|----------|-------------|
-| `url` | string | yes | Must contain `linux.do` AND `/topic/` |
+- `url` (`string`, required): URL host must be `linux.do` or its subdomain, and the path must contain `/topic/`

@@ -1,5 +1,5 @@
 mod handlers;
-mod helpers;
+pub mod helpers;
 mod params;
 
 pub use handlers::WebSearchHandler;

@@ -14,12 +14,22 @@ description: |
 > **Version:** ferris-search 0.1.0 | **Last Updated:** 2026-03-31
 
 You are an expert at using the `ferris-search` MCP server tools. Help users by:
+
 - **Writing MCP calls**: Generate correct tool invocations with proper parameters
 - **Answering questions**: Explain which tool to use and why, troubleshoot issues
+
+## Important Clarification
+
+MCP is not deprecated in `ferris-search`.
+
+- The project now supports both CLI commands and MCP tools
+- MCP tooling remains a first-class integration path
+- What changed is that old transport env vars such as `MODE` and `ENABLE_HTTP_SERVER` were removed
 
 ## Documentation
 
 Refer to the local files for detailed documentation:
+
 - `./references/tools-api.md` - Complete tool parameter reference
 - `./references/engines.md` - Search engine details and aliases
 
@@ -36,6 +46,7 @@ Refer to the local files for detailed documentation:
 ## Key Patterns
 
 ### Single-engine search
+
 ```json
 {
   "tool": "web_search",
@@ -45,6 +56,7 @@ Refer to the local files for detailed documentation:
 ```
 
 ### Multi-engine fan-out
+
 ```json
 {
   "tool": "web_search",
@@ -55,6 +67,7 @@ Refer to the local files for detailed documentation:
 ```
 
 ### GitHub repository search
+
 ```json
 {
   "tool": "web_search",
@@ -65,6 +78,7 @@ Refer to the local files for detailed documentation:
 ```
 
 ### GitHub code search
+
 ```json
 {
   "tool": "web_search",
@@ -75,6 +89,7 @@ Refer to the local files for detailed documentation:
 ```
 
 ### Fetch any web page
+
 ```json
 {
   "tool": "fetch_web_content",
@@ -84,6 +99,7 @@ Refer to the local files for detailed documentation:
 ```
 
 ### Fetch GitHub README
+
 ```json
 {
   "tool": "fetch_github_readme",
@@ -92,6 +108,7 @@ Refer to the local files for detailed documentation:
 ```
 
 ### Fetch domain-specific article
+
 ```json
 // CSDN
 { "tool": "fetch_csdn_article", "url": "https://blog.csdn.net/..." }
@@ -105,22 +122,24 @@ Refer to the local files for detailed documentation:
 
 ## API Reference Table
 
-| Tool | Required Params | Optional Params | URL Constraint |
-|------|----------------|-----------------|----------------|
-| `web_search` | `query` | `engines`, `limit` (1–50) | — |
-| `fetch_web_content` | `url` | `max_chars` (default 30000) | public HTTP/HTTPS |
-| `fetch_github_readme` | `url` | — | github.com |
-| `fetch_csdn_article` | `url` | — | csdn.net |
-| `fetch_juejin_article` | `url` | — | juejin.cn + /post/ |
-| `fetch_zhihu_article` | `url` | — | zhihu.com |
-| `fetch_linuxdo_article` | `url` | — | linux.do + /topic/ |
+> All fetch tools enforce SSRF protection: URLs must be public HTTP/HTTPS (private IPs and localhost are rejected). Domain-specific fetchers validate the URL **host** (not just string containment).
+
+| Tool                    | Required Params | Optional Params             | URL Constraint (host-based) |
+| ----------------------- | --------------- | --------------------------- | --------------------------- |
+| `web_search`            | `query`         | `engines`, `limit` (1–50)   | —                           |
+| `fetch_web_content`     | `url`           | `max_chars` (default 30000) | public HTTP/HTTPS           |
+| `fetch_github_readme`   | `url`           | —                           | host: github.com            |
+| `fetch_csdn_article`    | `url`           | —                           | host: csdn.net              |
+| `fetch_juejin_article`  | `url`           | —                           | host: juejin.cn + /post/    |
+| `fetch_zhihu_article`   | `url`           | —                           | host: zhihu.com             |
+| `fetch_linuxdo_article` | `url`           | —                           | host: linux.do + /topic/    |
 
 ## Deprecated Patterns (Don't Use)
 
-| Deprecated | Correct | Notes |
-|------------|---------|-------|
-| Passing engine as string `"engines": "bing"` | `"engines": ["bing"]` | Must be an array |
-| `limit > 50` | `limit: 50` | Clamped to max 50 |
+| Deprecated                                      | Correct                     | Notes                     |
+| ----------------------------------------------- | --------------------------- | ------------------------- |
+| Passing engine as string `"engines": "bing"`    | `"engines": ["bing"]`       | Must be an array          |
+| `limit > 50`                                    | `limit: 50`                 | Clamped to max 50         |
 | Using `fetch_web_content` for CSDN/Juejin/Zhihu | Use domain-specific fetcher | Better extraction quality |
 
 ## When Writing Code

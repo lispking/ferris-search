@@ -1,4 +1,7 @@
-use crate::utils::http_client::{build_client, chrome_headers};
+use crate::utils::{
+    http_client::{build_client, chrome_headers},
+    url_safety::assert_public_http_url,
+};
 use scraper::{Html, Selector};
 
 fn normalize_text(s: &str) -> String {
@@ -23,6 +26,7 @@ fn extract_content(html: &str) -> String {
 }
 
 pub async fn fetch_csdn_article(url: &str) -> anyhow::Result<String> {
+    assert_public_http_url(url)?;
     let client = build_client()?;
     let resp = client
         .get(url)

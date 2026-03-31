@@ -26,7 +26,8 @@ fn parse_github_url(url: &str) -> Option<RepoInfo> {
     } else {
         return None;
     };
-    // strip .git suffix
+    // strip query string, fragment, and .git suffix
+    let path = path.split(['?', '#']).next().unwrap_or(path);
     let path = path.trim_end_matches(".git");
     // take only first two path segments
     let parts: Vec<&str> = path.splitn(3, '/').collect();
@@ -66,4 +67,69 @@ pub async fn fetch_github_readme(url: &str) -> anyhow::Result<String> {
     fetch_readme(&info.owner, &info.repo)
         .await
         .ok_or_else(|| anyhow::anyhow!("Could not fetch README for {}/{}", info.owner, info.repo))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parse_https_url() {
+        let info = parse_github_url("https://github.com/tokio-rs/tokio").unwrap();
+        assert_eq!(info.owner, "tokio-rs");
+        assert_eq!(info.repo, "tokio");
+    }
+
+    #[test]
+    fn parse_http_url() {
+        let info = parse_github_url("http://github.com/owner/repo").unwrap();
+        assert_eq!(info.owner, "owner");
+        assert_eq!(info.repo, "repo");
+    }
+
+    #[test]
+    fn parse_git_ssh_url() {
+        let info = parse_github_url("git@github.com:owner/repo.git").unwrap();
+        assert_eq!(info.owner, "owner");
+        assert_eq!(info.repo, "repo");
+    }
+
+    #[test]
+    fn parse_strips_dot_git() {
+        let info = parse_github_url("https://github.com/owner/repo.git").unwrap();
+        assert_eq!(info.repo, "repo");
+    }
+
+    #[test]
+    fn parse_strips_query_and_fragment() {
+        let info = parse_github_url("https://github.com/owner/repo?tab=readme#section").unwrap();
+        assert_eq!(info.owner, "owner");
+        assert_eq!(info.repo, "repo");
+    }
+
+    #[test]
+    fn parse_trailing_slash() {
+        let info = parse_github_url("https://github.com/owner/repo/").unwrap();
+        assert_eq!(info.owner, "owner");
+        assert_eq!(info.repo, "repo");
+    }
+
+    #[test]
+    fn parse_deeper_path_takes_owner_repo() {
+        let info = parse_github_url("https://github.com/owner/repo/issues/42").unwrap();
+        assert_eq!(info.owner, "owner");
+        assert_eq!(info.repo, "repo");
+    }
+
+    #[test]
+    fn parse_rejects_non_github() {
+        assert!(parse_github_url("https://gitlab.com/owner/repo").is_none());
+    }
+
+    #[test]
+    fn parse_rejects_incomplete() {
+        assert!(parse_github_url("https://github.com/").is_none());
+        assert!(parse_github_url("https://github.com/owner").is_none());
+        assert!(parse_github_url("https://github.com/owner/").is_none());
+    }
 }
