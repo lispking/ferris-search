@@ -1,4 +1,7 @@
-use crate::utils::http_client::{build_client, chrome_headers};
+use crate::utils::{
+    http_client::{build_client, chrome_headers},
+    url_safety::assert_public_http_url,
+};
 use scraper::{Html, Selector};
 
 fn normalize_text(s: &str) -> String {
@@ -36,9 +39,9 @@ fn extract_content(html: &str) -> String {
 }
 
 pub async fn fetch_juejin_article(url: &str) -> anyhow::Result<String> {
-    // Validate it's a juejin post URL
-    if !url.contains("juejin.cn") || !url.contains("/post/") {
-        anyhow::bail!("URL must be from juejin.cn and contain /post/ path");
+    assert_public_http_url(url)?;
+    if !url.contains("/post/") {
+        anyhow::bail!("URL must contain /post/ path");
     }
     let client = build_client()?;
     let resp = client.get(url).headers(chrome_headers()).send().await?;

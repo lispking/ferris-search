@@ -1,4 +1,7 @@
-use crate::utils::http_client::{build_client, chrome_headers};
+use crate::utils::{
+    http_client::{build_client, chrome_headers},
+    url_safety::assert_public_http_url,
+};
 use scraper::{Html, Selector};
 
 fn normalize_text(s: &str) -> String {
@@ -29,9 +32,7 @@ fn extract_content(html: &str) -> String {
 }
 
 pub async fn fetch_zhihu_article(url: &str) -> anyhow::Result<String> {
-    if !url.contains("zhihu.com") {
-        anyhow::bail!("URL must be from zhihu.com");
-    }
+    assert_public_http_url(url)?;
     let client = build_client()?;
     let mut headers = chrome_headers();
     headers.insert("referer", "https://www.zhihu.com/".parse().unwrap());

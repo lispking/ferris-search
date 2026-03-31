@@ -12,13 +12,24 @@ description: |
 
 > **Version:** ferris-search 0.1.0 | **Last Updated:** 2026-03-30
 
-You are an expert at installing and configuring the `ferris-search` MCP server. Help users by:
+You are an expert at installing and configuring the `ferris-search` CLI & MCP binary. Help users by:
+
 - **Setup**: Guide through build, install, and MCP registration
 - **Configuration**: Explain env vars and their effects
+
+## Important Clarification
+
+MCP is not deprecated in `ferris-search`.
+
+- The binary supports both **CLI mode** and **MCP stdio mode**
+- Current MCP usage is still the recommended path for Claude Desktop / Cursor / Claude Code integration
+- Only the old transport-selection env vars were removed: `MODE` and `ENABLE_HTTP_SERVER`
+- Current behavior is: explicit `mcp` subcommand, or automatic MCP mode when stdin is piped
 
 ## Documentation
 
 Refer to the local files for detailed documentation:
+
 - `./references/configuration.md` - All environment variables and their effects
 
 ## IMPORTANT: Documentation Completeness Check
@@ -31,12 +42,14 @@ Refer to the local files for detailed documentation:
 ## Key Patterns
 
 ### Build & register with Claude Code
+
 ```bash
 cargo build --release
 claude mcp add ferris-search ./target/release/ferris-search
 ```
 
 ### With environment variables
+
 ```bash
 claude mcp add ferris-search ./target/release/ferris-search \
   -e DEFAULT_SEARCH_ENGINE=bing \
@@ -44,6 +57,7 @@ claude mcp add ferris-search ./target/release/ferris-search \
 ```
 
 ### Claude Desktop / Cursor (mcp-config.json)
+
 ```json
 {
   "mcpServers": {
@@ -60,6 +74,7 @@ claude mcp add ferris-search ./target/release/ferris-search \
 ```
 
 ### With proxy
+
 ```bash
 claude mcp add ferris-search ./target/release/ferris-search \
   -e USE_PROXY=true \
@@ -67,6 +82,7 @@ claude mcp add ferris-search ./target/release/ferris-search \
 ```
 
 ### Docker
+
 ```bash
 docker build -t ferris-search .
 docker run -e DEFAULT_SEARCH_ENGINE=bing ferris-search
@@ -74,21 +90,21 @@ docker run -e DEFAULT_SEARCH_ENGINE=bing ferris-search
 
 ## Configuration Reference
 
-| Env Var | Default | Description |
-|---------|---------|-------------|
-| `DEFAULT_SEARCH_ENGINE` | `bing` | Engine used when `engines` param is omitted |
-| `ALLOWED_SEARCH_ENGINES` | all 14 engines | Comma-separated allow-list |
-| `BRAVE_API_KEY` | — | Required only for `brave` engine |
-| `EXA_API_KEY` | — | Required only for `exa` engine |
-| `FIRECRAWL_API_KEY` | — | Required only for `firecrawl` engine |
-| `JINA_API_KEY` | — | Required only for `jina` engine |
-| `TAVILY_API_KEY` | — | Required only for `tavily` engine |
-| `GITHUB_TOKEN` | — | Optional for `github`/`github_code` engines (60→5000 req/hr) |
-| `USE_PROXY` | `false` | Enable HTTP/SOCKS5 proxy |
-| `PROXY_URL` | `http://127.0.0.1:7890` | Proxy address |
-| `ENABLE_HTTP_SERVER` | `false` | Enable HTTP/SSE transport alongside stdio |
-| `MODE` | `stdio` | Transport mode: `stdio`, `http`, or `both` |
-| `RUST_LOG` | `info` | Log level: `debug`, `info`, `warn`, `error` |
+| Env Var                  | Default                        | Description                                                  |
+| ------------------------ | ------------------------------ | ------------------------------------------------------------ |
+| `DEFAULT_SEARCH_ENGINE`  | `bing`                         | Engine used when `engines` param is omitted                  |
+| `ALLOWED_SEARCH_ENGINES` | all 14 engines                 | Comma-separated allow-list                                   |
+| `BRAVE_API_KEY`          | —                              | Required only for `brave` engine                             |
+| `EXA_API_KEY`            | —                              | Required only for `exa` engine                               |
+| `FIRECRAWL_API_KEY`      | —                              | Required only for `firecrawl` engine                         |
+| `JINA_API_KEY`           | —                              | Required only for `jina` engine                              |
+| `TAVILY_API_KEY`         | —                              | Required only for `tavily` engine                            |
+| `GITHUB_TOKEN`           | —                              | Optional for `github`/`github_code` engines (60→5000 req/hr) |
+| `USE_PROXY`              | `false`                        | Enable HTTP/SOCKS5 proxy                                     |
+| `PROXY_URL`              | `http://127.0.0.1:7890`        | Proxy address                                                |
+| `LOCAL_DOCS_INDEX_PATH`  | `.ferris-index`                | Directory to store the local full-text index                 |
+| `LOCAL_DOCS_EXTENSIONS`  | `md,markdown,txt,html,htm,pdf` | Comma-separated file extensions for local indexing           |
+| `RUST_LOG`               | `info`                         | Log level: `debug`, `info`, `warn`, `error`                  |
 
 ## When Writing Code
 
@@ -103,3 +119,4 @@ docker run -e DEFAULT_SEARCH_ENGINE=bing ferris-search
 2. JSON config is needed for Claude Desktop / Cursor
 3. Proxy support works for all engines including those behind GFW
 4. `ALLOWED_SEARCH_ENGINES` acts as an allow-list — engines not listed are silently filtered out
+5. If a user asks whether MCP was deprecated, answer: MCP is still supported; only the old transport env vars were removed

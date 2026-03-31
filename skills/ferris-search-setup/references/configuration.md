@@ -36,7 +36,7 @@ ALLOWED_SEARCH_ENGINES=baidu,csdn,juejin,zhihu,bing
 
 - **Default:** unset
 - **Effect:** Required to use the `brave` engine. Without it, `brave` calls will fail.
-- **Get a key:** https://brave.com/search/api/
+- **Get a key:** <https://brave.com/search/api/>
 
 ```bash
 BRAVE_API_KEY=your-brave-api-key
@@ -48,7 +48,7 @@ BRAVE_API_KEY=your-brave-api-key
 
 - **Default:** unset
 - **Effect:** Required to use the `exa` engine. Without it, `exa` calls will fail.
-- **Get a key:** https://exa.ai
+- **Get a key:** <https://exa.ai>
 
 ```bash
 EXA_API_KEY=exa-xxxxxxxxxxxxxxxx
@@ -60,7 +60,7 @@ EXA_API_KEY=exa-xxxxxxxxxxxxxxxx
 
 - **Default:** unset
 - **Effect:** Required to use the `firecrawl` engine. Without it, `firecrawl` calls will fail.
-- **Get a key:** https://firecrawl.dev
+- **Get a key:** <https://firecrawl.dev>
 
 ```bash
 FIRECRAWL_API_KEY=fc-xxxxxxxxxxxxxxxx
@@ -72,7 +72,7 @@ FIRECRAWL_API_KEY=fc-xxxxxxxxxxxxxxxx
 
 - **Default:** unset
 - **Effect:** Required to use the `jina` engine. Without it, `jina` calls will fail.
-- **Get a key:** https://jina.ai
+- **Get a key:** <https://jina.ai>
 
 ```bash
 JINA_API_KEY=jina_xxxxxxxxxxxxxxxx
@@ -84,7 +84,7 @@ JINA_API_KEY=jina_xxxxxxxxxxxxxxxx
 
 - **Default:** unset
 - **Effect:** Required to use the `tavily` engine. Without it, `tavily` calls will fail.
-- **Get a key:** https://tavily.com
+- **Get a key:** <https://tavily.com>
 
 ```bash
 TAVILY_API_KEY=tvly-xxxxxxxxxxxxxxxx
@@ -124,20 +124,30 @@ PROXY_URL=socks5://127.0.0.1:1080
 
 ---
 
-### ENABLE_HTTP_SERVER / MODE
+### LOCAL_DOCS_INDEX_PATH
 
-- **ENABLE_HTTP_SERVER default:** `false`
-- **MODE default:** `stdio`
-- **MODE values:** `stdio`, `http`, `both`
-- **Effect:** Enables HTTP/SSE transport in addition to (or instead of) stdio
+- **Default:** `.ferris-index`
+- **Effect:** Directory where `index-local` writes and `search-local` reads the Tantivy full-text index
+- **Used by:** CLI `index-local` and `search-local` subcommands
 
 ```bash
-# HTTP only
-ENABLE_HTTP_SERVER=true
-MODE=http
+LOCAL_DOCS_INDEX_PATH=./my-docs-index
+```
 
-# Both transports
-MODE=both
+---
+
+### LOCAL_DOCS_EXTENSIONS
+
+- **Default:** `md,markdown,txt,html,htm,pdf` (when unset, uses built-in defaults)
+- **Format:** comma-separated list of file extensions (without dots)
+- **Effect:** Controls which file types are collected during `index-local`
+
+```bash
+# Only index Markdown and text files
+LOCAL_DOCS_EXTENSIONS=md,txt
+
+# Include PDF
+LOCAL_DOCS_EXTENSIONS=md,markdown,txt,html,htm,pdf
 ```
 
 ---
@@ -157,11 +167,13 @@ RUST_LOG=debug  # verbose logging for troubleshooting
 ## Complete Example Configurations
 
 ### Minimal (stdio, default bing)
+
 ```bash
 claude mcp add ferris-search ./target/release/ferris-search
 ```
 
 ### Privacy-focused
+
 ```bash
 claude mcp add ferris-search ./target/release/ferris-search \
   -e DEFAULT_SEARCH_ENGINE=duckduckgo \
@@ -169,6 +181,7 @@ claude mcp add ferris-search ./target/release/ferris-search \
 ```
 
 ### Chinese developer workflow
+
 ```bash
 claude mcp add ferris-search ./target/release/ferris-search \
   -e DEFAULT_SEARCH_ENGINE=bing \
@@ -176,6 +189,7 @@ claude mcp add ferris-search ./target/release/ferris-search \
 ```
 
 ### With Exa AI search
+
 ```bash
 claude mcp add ferris-search ./target/release/ferris-search \
   -e DEFAULT_SEARCH_ENGINE=exa \
@@ -184,6 +198,7 @@ claude mcp add ferris-search ./target/release/ferris-search \
 ```
 
 ### Behind GFW with proxy
+
 ```bash
 claude mcp add ferris-search ./target/release/ferris-search \
   -e USE_PROXY=true \

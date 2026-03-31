@@ -12,6 +12,8 @@ pub struct AppConfig {
     pub jina_api_key: Option<String>,
     pub tavily_api_key: Option<String>,
     pub github_token: Option<String>,
+    pub local_docs_index_path: String,
+    pub local_docs_extensions: Vec<String>,
 }
 
 impl AppConfig {
@@ -60,6 +62,19 @@ impl AppConfig {
         let tavily_api_key = env::var("TAVILY_API_KEY").ok();
         let github_token = env::var("GITHUB_TOKEN").ok();
 
+        let local_docs_index_path = env::var("LOCAL_DOCS_INDEX_PATH")
+            .unwrap_or_else(|_| ".ferris-index".to_string());
+
+        let local_docs_ext_str = env::var("LOCAL_DOCS_EXTENSIONS").unwrap_or_default();
+        let local_docs_extensions: Vec<String> = if local_docs_ext_str.is_empty() {
+            Vec::new() // empty means use default from collector
+        } else {
+            local_docs_ext_str
+                .split(',')
+                .map(|s| s.trim().to_lowercase())
+                .collect()
+        };
+
         Self {
             default_search_engine,
             allowed_search_engines,
@@ -71,6 +86,8 @@ impl AppConfig {
             jina_api_key,
             tavily_api_key,
             github_token,
+            local_docs_index_path,
+            local_docs_extensions,
         }
     }
 

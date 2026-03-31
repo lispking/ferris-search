@@ -109,8 +109,9 @@ pub async fn fetch_web_content(url: &str, max_chars: Option<usize>) -> anyhow::R
 
     let truncated = text.len() > max;
     if truncated {
-        // Truncate at a newline boundary if possible
-        let cut = text[..max].rfind('\n').unwrap_or(max);
+        // Truncate at a newline boundary if possible (safe for multi-byte UTF-8)
+        let safe_max = text.floor_char_boundary(max);
+        let cut = text[..safe_max].rfind('\n').unwrap_or(safe_max);
         text.truncate(cut);
     }
 

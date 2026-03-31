@@ -67,3 +67,84 @@ pub fn assert_public_http_url(url: &str) -> anyhow::Result<()> {
         anyhow::bail!("URL is not a public HTTP/HTTPS URL: {}", url)
     }
 }
+
+/// Check if a URL's host matches the given domain (or is a subdomain of it).
+pub fn is_url_from_host(raw: &str, domain: &str) -> bool {
+    let Ok(url) = Url::parse(raw) else {
+        return false;
+    };
+    match url.host_str() {
+        Some(host) => host == domain || host.ends_with(&format!(".{}", domain)),
+        None => false,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn public_urls_accepted() {
+        assert!(is_public_http_url("https://example.com"));
+        assert!(is_public_http_url("http://example.com/path"));
+        assert!(is_public_http_url("https://github.com/owner/repo"));
+    }
+
+    #[test]
+    fn non_http_rejected() {
+        assert!(!is_public_http_url("ftp://example.com"));
+        assert!(!is_public_http_url("file:///etc/passwd"));
+        assert!(!is_public_http_url("javascript:alert(1)"));
+    }
+
+    #[test]
+    fn private_ips_rejected() {
+        assert!(!is_public_http_url("http://127.0.0.1"));
+        assert!(!is_public_http_url("http://10.0.0.1/path"));
+        assert!(!is_public_http_url("http://192.168.1.1"));
+        assert!(!is_public_http_url("http://172.16.0.1"));
+    }
+
+    #[test]
+    fn localhost_rejected() {
+        assert!(!is_public_http_url("http://localhost"));
+        assert!(!is_public_http_url("http://localhost:8080"));
+        assert!(!is_public_http_url("http://foo.localhost"));
+    }
+
+    #[test]
+    fn invalid_urls_rejected() {
+        assert!(!is_public_http_url("not a url"));
+        assert!(!is_public_http_url(""));
+    }
+
+    #[test]
+    fn is_url_from_host_exact_match() {
+        assert!(is_url_from_host(
+            "https://github.com/owner/repo",
+            "github.com"
+        ));
+        assert!(is_url_from_host(
+            "https://blog.csdn.net/article",
+            "csdn.net"
+        ));
+        assert!(is_url_from_host(
+            "https://www.zhihu.com/question/1",
+            "zhihu.com"
+        ));
+    }
+
+    #[test]
+    fn is_url_from_host_rejects_spoofed() {
+        assert!(!is_url_from_host(
+            "http://evil.com/github.com",
+            "github.com"
+        ));
+        assert!(!is_url_from_host(
+            "http://169.254.169.254/csdn.net",
+            "csdn.net"
+        ));
+        assert!(!is_url_from_host("http://evil.com/zhihu.com", "zhihu.com"));
+        assert!(!is_url_from_host("not a url", "github.com"));
+    }
+}
