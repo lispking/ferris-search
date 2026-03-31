@@ -31,7 +31,7 @@ With Claude Code as the AI layer and ferris-search as the search backbone, your 
 ## Features
 
 - **Multi-engine fan-out** — search across multiple engines simultaneously with a single call
-- **12 search engines** — Bing, DuckDuckGo, Brave, Baidu, CSDN, Juejin, Exa, Firecrawl, Zhihu, LinuxDo, Jina, Tavily
+- **14 search engines** — Bing, DuckDuckGo, Brave, Baidu, CSDN, Juejin, Exa, Firecrawl, Zhihu, LinuxDo, Jina, Tavily, GitHub (repo search), GitHub Code (code search)
 - **7 MCP tools** — `web_search` + 6 article/content fetchers
 - **No API keys required** for most engines (Brave, Exa, Firecrawl, Jina, and Tavily require API keys)
 - **Single binary** — ~8 MB, no runtime dependencies
@@ -125,7 +125,7 @@ Search the web using one or more engines simultaneously.
 | `engines` | string[] | server default | Engines to search (fan-out if multiple) |
 | `limit` | number | 10 | Max results per engine (1–50) |
 
-Supported engines: `bing`, `duckduckgo`, `brave`, `baidu`, `csdn`, `juejin`, `exa`, `firecrawl`, `zhihu`, `linuxdo`, `jina`, `tavily`
+Supported engines: `bing`, `duckduckgo`, `brave`, `baidu`, `csdn`, `juejin`, `exa`, `firecrawl`, `zhihu`, `linuxdo`, `jina`, `tavily`, `github`, `github_code`
 
 ### `fetch_web_content`
 
@@ -168,6 +168,7 @@ All configuration is done via environment variables.
 | `FIRECRAWL_API_KEY` | — | Required for `firecrawl` engine |
 | `JINA_API_KEY` | — | Required for `jina` engine |
 | `TAVILY_API_KEY` | — | Required for `tavily` engine |
+| `GITHUB_TOKEN` | — | Optional for `github` / `github_code` engines (raises rate limit from 60 to 5000 req/hr) |
 | `USE_PROXY` | `false` | Enable HTTP/SOCKS5 proxy |
 | `PROXY_URL` | `http://127.0.0.1:7890` | Proxy address |
 | `ENABLE_HTTP_SERVER` | `false` | Enable HTTP/SSE transport alongside stdio |

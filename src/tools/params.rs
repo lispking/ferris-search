@@ -7,7 +7,7 @@ pub struct WebSearchParams {
     pub query: String,
     /// Max results to return per engine (default 10, max 50)
     pub limit: Option<u32>,
-    /// One or more search engines to use. Supported: bing, duckduckgo, brave, baidu, csdn, juejin, exa, zhihu, linuxdo.
+    /// One or more search engines to use. Supported: bing, duckduckgo, brave, baidu, csdn, juejin, exa, zhihu, linuxdo, jina, tavily, github (repository search), github_code (code search).
     /// Defaults to the server's configured default engine.
     pub engines: Option<Vec<String>>,
 }

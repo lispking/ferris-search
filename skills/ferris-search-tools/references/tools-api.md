@@ -28,6 +28,8 @@ Search the web using one or more engines. Supports concurrent fan-out.
 | `linuxdo` | `linux.do` |
 | `jina` | `jina.ai` | (requires `JINA_API_KEY`) |
 | `tavily` | — | (requires `TAVILY_API_KEY`) |
+| `github` | `github repos`, `github repo` | (optional `GITHUB_TOKEN`; searches repositories) |
+| `github_code` | `github code` | (optional `GITHUB_TOKEN`; searches code files) |
 
 ### Output Format
 

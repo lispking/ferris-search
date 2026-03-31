@@ -1,8 +1,17 @@
 use crate::{
     engines::{
-        baidu::search_baidu, bing::search_bing, brave::search_brave, csdn::search_csdn,
-        duckduckgo::search_duckduckgo, exa::search_exa, firecrawl::search_firecrawl,
-        jina::search_jina, juejin::search_juejin, linuxdo::search_linuxdo, tavily::search_tavily,
+        baidu::search_baidu,
+        bing::search_bing,
+        brave::search_brave,
+        csdn::search_csdn,
+        duckduckgo::search_duckduckgo,
+        exa::search_exa,
+        firecrawl::search_firecrawl,
+        github::{search_github_code, search_github_repos},
+        jina::search_jina,
+        juejin::search_juejin,
+        linuxdo::search_linuxdo,
+        tavily::search_tavily,
         zhihu::search_zhihu,
     },
     types::SearchResult,
@@ -23,6 +32,8 @@ pub fn normalize_engine(s: &str) -> String {
         "jina" | "jina.ai" => "jina".into(),
         "tavily" => "tavily".into(),
         "firecrawl" => "firecrawl".into(),
+        "github" | "github repos" | "github repo" => "github".into(),
+        "github_code" | "github code" => "github_code".into(),
         _ => cleaned,
     }
 }
@@ -72,6 +83,8 @@ pub async fn do_search(
         "linuxdo" => search_linuxdo(query, limit).await,
         "jina" => search_jina(query, limit).await,
         "tavily" => search_tavily(query, limit).await,
+        "github" => search_github_repos(query, limit).await,
+        "github_code" => search_github_code(query, limit).await,
         other => anyhow::bail!("Unknown search engine: {}", other),
     }
 }

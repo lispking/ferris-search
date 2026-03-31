@@ -11,6 +11,7 @@ pub struct AppConfig {
     pub firecrawl_api_key: Option<String>,
     pub jina_api_key: Option<String>,
     pub tavily_api_key: Option<String>,
+    pub github_token: Option<String>,
 }
 
 impl AppConfig {
@@ -34,6 +35,8 @@ impl AppConfig {
                 "firecrawl".into(),
                 "jina".into(),
                 "tavily".into(),
+                "github".into(),
+                "github_code".into(),
             ]
         } else {
             allowed_str
@@ -55,6 +58,7 @@ impl AppConfig {
         let firecrawl_api_key = env::var("FIRECRAWL_API_KEY").ok();
         let jina_api_key = env::var("JINA_API_KEY").ok();
         let tavily_api_key = env::var("TAVILY_API_KEY").ok();
+        let github_token = env::var("GITHUB_TOKEN").ok();
 
         Self {
             default_search_engine,
@@ -66,6 +70,7 @@ impl AppConfig {
             firecrawl_api_key,
             jina_api_key,
             tavily_api_key,
+            github_token,
         }
     }
 

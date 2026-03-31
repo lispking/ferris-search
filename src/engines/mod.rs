@@ -5,6 +5,7 @@ pub mod csdn;
 pub mod duckduckgo;
 pub mod exa;
 pub mod firecrawl;
+pub mod github;
 pub mod jina;
 pub mod juejin;
 pub mod linuxdo;

@@ -77,12 +77,13 @@ docker run -e DEFAULT_SEARCH_ENGINE=bing ferris-search
 | Env Var | Default | Description |
 |---------|---------|-------------|
 | `DEFAULT_SEARCH_ENGINE` | `bing` | Engine used when `engines` param is omitted |
-| `ALLOWED_SEARCH_ENGINES` | all 9 engines | Comma-separated allow-list |
+| `ALLOWED_SEARCH_ENGINES` | all 14 engines | Comma-separated allow-list |
 | `BRAVE_API_KEY` | — | Required only for `brave` engine |
 | `EXA_API_KEY` | — | Required only for `exa` engine |
 | `FIRECRAWL_API_KEY` | — | Required only for `firecrawl` engine |
 | `JINA_API_KEY` | — | Required only for `jina` engine |
 | `TAVILY_API_KEY` | — | Required only for `tavily` engine |
+| `GITHUB_TOKEN` | — | Optional for `github`/`github_code` engines (60→5000 req/hr) |
 | `USE_PROXY` | `false` | Enable HTTP/SOCKS5 proxy |
 | `PROXY_URL` | `http://127.0.0.1:7890` | Proxy address |
 | `ENABLE_HTTP_SERVER` | `false` | Enable HTTP/SSE transport alongside stdio |
@@ -93,7 +94,7 @@ docker run -e DEFAULT_SEARCH_ENGINE=bing ferris-search
 
 1. Always build with `--release` for production use (~8 MB binary, <10 ms startup)
 2. Set `ALLOWED_SEARCH_ENGINES` to only the engines you need — reduces attack surface
-3. Never commit `EXA_API_KEY`, `FIRECRAWL_API_KEY`, `JINA_API_KEY`, `TAVILY_API_KEY`, or `BRAVE_API_KEY` to source control — use env var injection
+3. Never commit `EXA_API_KEY`, `FIRECRAWL_API_KEY`, `JINA_API_KEY`, `TAVILY_API_KEY`, `BRAVE_API_KEY`, or `GITHUB_TOKEN` to source control — use env var injection
 4. For Chinese content workflows, include `baidu`, `csdn`, `juejin`, `zhihu` in allow-list
 
 ## When Answering Questions

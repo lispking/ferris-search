@@ -5,7 +5,7 @@
 ### DEFAULT_SEARCH_ENGINE
 
 - **Default:** `bing`
-- **Values:** any of `bing`, `duckduckgo`, `brave`, `baidu`, `csdn`, `juejin`, `exa`, `firecrawl`, `zhihu`, `linuxdo`, `jina`, `tavily`
+- **Values:** any of `bing`, `duckduckgo`, `brave`, `baidu`, `csdn`, `juejin`, `exa`, `firecrawl`, `zhihu`, `linuxdo`, `jina`, `tavily`, `github`, `github_code`
 - **Effect:** Used when `web_search` is called without an `engines` parameter
 
 ```bash
@@ -16,7 +16,7 @@ DEFAULT_SEARCH_ENGINE=duckduckgo
 
 ### ALLOWED_SEARCH_ENGINES
 
-- **Default:** all 9 engines
+- **Default:** all 14 engines
 - **Format:** comma-separated list (spaces around commas are trimmed)
 - **Effect:** Acts as an allow-list. Any engine not in this list is silently ignored in `web_search` calls.
 
@@ -88,6 +88,20 @@ JINA_API_KEY=jina_xxxxxxxxxxxxxxxx
 
 ```bash
 TAVILY_API_KEY=tvly-xxxxxxxxxxxxxxxx
+```
+
+---
+
+### GITHUB_TOKEN
+
+- **Default:** unset
+- **Effect:** Optional. Used by `github` (repository search) and `github_code` (code search) engines.
+  - Without token: anonymous requests, rate-limited to **60 req/hr**
+  - With token: authenticated requests, rate-limited to **5000 req/hr**
+- **Get a token:** GitHub Settings → Developer settings → Personal access tokens (no special scopes needed for public search)
+
+```bash
+GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxx
 ```
 
 ---

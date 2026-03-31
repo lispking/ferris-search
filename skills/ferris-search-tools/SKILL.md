@@ -5,12 +5,13 @@ description: |
   web_search, fetch_web_content, fetch_github_readme, fetch_csdn_article,
   fetch_juejin_article, fetch_zhihu_article, fetch_linuxdo_article,
   ferris-search tool, MCP search tool, multi-engine search,
-  搜索引擎工具, 网页抓取, 文章获取, MCP搜索, 多引擎搜索
+  github search, github_code search, GitHub repository search, GitHub code search,
+  搜索引擎工具, 网页抓取, 文章获取, MCP搜索, 多引擎搜索, GitHub搜索
 ---
 
 # ferris-search MCP Tools Skill
 
-> **Version:** ferris-search 0.1.0 | **Last Updated:** 2026-03-30
+> **Version:** ferris-search 0.1.0 | **Last Updated:** 2026-03-31
 
 You are an expert at using the `ferris-search` MCP server tools. Help users by:
 - **Writing MCP calls**: Generate correct tool invocations with proper parameters
@@ -50,6 +51,26 @@ Refer to the local files for detailed documentation:
   "query": "rust async runtime",
   "engines": ["bing", "duckduckgo", "brave"],
   "limit": 5
+}
+```
+
+### GitHub repository search
+```json
+{
+  "tool": "web_search",
+  "query": "tokio async runtime stars:>1000",
+  "engines": ["github"],
+  "limit": 10
+}
+```
+
+### GitHub code search
+```json
+{
+  "tool": "web_search",
+  "query": "reqwest Client language:rust",
+  "engines": ["github_code"],
+  "limit": 10
 }
 ```
 
@@ -115,3 +136,5 @@ Refer to the local files for detailed documentation:
 2. For Chinese content (CSDN, Juejin, Zhihu), always prefer the dedicated fetcher
 3. Engine aliases are normalized: `"ddg"`, `"duck duck go"`, `"百度"` all work
 4. `exa` engine requires `EXA_API_KEY` env var — warn user if they try to use it without one
+5. `github` searches repositories (name, description, stars, language); `github_code` searches code files (path, blob URL)
+6. `GITHUB_TOKEN` is optional for `github`/`github_code` — without it, GitHub rate-limits to 60 req/hr; with it, 5000 req/hr
