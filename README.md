@@ -37,6 +37,41 @@ With Claude Code as the AI layer and ferris-search as the search backbone, your 
 - **Single binary** — ~8 MB, no runtime dependencies
 - **Proxy support** — HTTP/SOCKS5 proxy via env var
 
+## Quick Install
+
+### Linux / macOS (one-liner)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/lispking/ferris-search/main/install.sh | bash
+```
+
+Or from a local clone:
+
+```bash
+bash install.sh
+```
+
+The script will:
+1. Build and install the binary via `cargo install`
+2. Register the MCP server with Claude Code (`claude mcp add -s user`) if the CLI is found
+3. Install Claude Code skills for ferris-search
+
+### Windows (PowerShell)
+
+```powershell
+irm https://raw.githubusercontent.com/lispking/ferris-search/main/install.ps1 | iex
+```
+
+Or from a local clone:
+
+```powershell
+.\install.ps1
+```
+
+> **Prerequisite:** [Rust](https://www.rust-lang.org/tools/install) must be installed before running either script.
+
+---
+
 ## Quick Start
 
 ### Install from source
