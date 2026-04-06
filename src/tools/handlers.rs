@@ -1,5 +1,6 @@
 use super::helpers::{do_search, format_results, normalize_engine, results_to_text};
 use super::params::{ArticleUrlParams, FetchUrlParams, GithubReadmeParams, WebSearchParams};
+use crate::utils::url_safety::is_public_http_url;
 use crate::{
     config::CONFIG,
     fetchers::{
@@ -13,6 +14,20 @@ use rmcp::{
     model::{Implementation, ServerCapabilities, ServerInfo},
     tool, tool_handler, tool_router,
 };
+use url::Url;
+
+fn is_domain_validated(url: &str, domain: &str) -> bool {
+    (match Url::parse(url) {
+        Ok(parsed) => {
+            if let Some(host) = parsed.host_str() {
+                host == domain || host.ends_with(&format!(".{}", domain))
+            } else {
+                false
+            }
+        }
+        Err(_) => false,
+    }) && is_public_http_url(url)
+}
 
 #[derive(Debug, Clone)]
 pub struct WebSearchHandler {
@@ -124,7 +139,7 @@ impl WebSearchHandler {
     )]
     pub async fn fetch_github_readme_tool(&self, p: Parameters<GithubReadmeParams>) -> String {
         let url = p.0.url;
-        if !url.contains("github.com") {
+        if !url.contains("github.com") || !is_domain_validated(&url, "github.com") {
             return "URL must be from github.com".into();
         }
         match fetch_github_readme(&url).await {
@@ -140,7 +155,7 @@ impl WebSearchHandler {
     )]
     pub async fn fetch_csdn_article_tool(&self, p: Parameters<ArticleUrlParams>) -> String {
         let url = p.0.url;
-        if !url.contains("csdn.net") {
+        if !url.contains("csdn.net") || !is_domain_validated(&url, "csdn.net") {
             return "URL must be from csdn.net".into();
         }
         match fetch_csdn_article(&url).await {
@@ -156,7 +171,10 @@ impl WebSearchHandler {
     )]
     pub async fn fetch_juejin_article_tool(&self, p: Parameters<ArticleUrlParams>) -> String {
         let url = p.0.url;
-        if !url.contains("juejin.cn") || !url.contains("/post/") {
+        if !url.contains("juejin.cn")
+            || !url.contains("/post/")
+            || !is_domain_validated(&url, "juejin.cn")
+        {
             return "URL must be from juejin.cn and contain /post/ path".into();
         }
         match fetch_juejin_article(&url).await {
@@ -172,7 +190,7 @@ impl WebSearchHandler {
     )]
     pub async fn fetch_zhihu_article_tool(&self, p: Parameters<ArticleUrlParams>) -> String {
         let url = p.0.url;
-        if !url.contains("zhihu.com") {
+        if !url.contains("zhihu.com") || !is_domain_validated(&url, "zhihu.com") {
             return "URL must be from zhihu.com".into();
         }
         match fetch_zhihu_article(&url).await {
@@ -188,7 +206,10 @@ impl WebSearchHandler {
     )]
     pub async fn fetch_linuxdo_article_tool(&self, p: Parameters<ArticleUrlParams>) -> String {
         let url = p.0.url;
-        if !url.contains("linux.do") || !url.contains("/topic/") {
+        if !url.contains("linux.do")
+            || !url.contains("/topic/")
+            || !is_domain_validated(&url, "linux.do")
+        {
             return "URL must be from linux.do and contain /topic/ path".into();
         }
         match fetch_linuxdo_article(&url).await {
