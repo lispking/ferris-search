@@ -31,6 +31,31 @@ fn is_private_ip(ip: IpAddr) -> bool {
     }
 }
 
+const KNOWN_REBINDING_DOMAINS: &[&str] = &[
+    ".rbndr.us",
+    ".1u.ms",
+    ".rebind.it",
+    ".rebind.network",
+    ".nip.io",
+    ".localtest.me",
+];
+
+/// # Returns
+/// Return true if
+/// - domain is a DNS rebinding domain
+/// - domain is a private IP
+fn is_dns_rebinding_domain(domain: &str) -> bool {
+    if KNOWN_REBINDING_DOMAINS.iter().any(|d| domain.ends_with(*d)) {
+        return true;
+    }
+
+    let Ok(ip): Result<Vec<IpAddr>, _> = dns_lookup::lookup_host(domain).map(|x| x.collect())
+    else {
+        return false;
+    };
+    ip.iter().any(|i| is_private_ip(*i))
+}
+
 pub fn is_public_http_url(raw: &str) -> bool {
     let Ok(url) = Url::parse(raw) else {
         return false;
@@ -47,6 +72,9 @@ pub fn is_public_http_url(raw: &str) -> bool {
         url::Host::Ipv4(ip) => !is_private_ip(IpAddr::V4(ip)),
         url::Host::Ipv6(ip) => !is_private_ip(IpAddr::V6(ip)),
         url::Host::Domain(d) => {
+            if is_dns_rebinding_domain(d) {
+                return false;
+            }
             // reject numeric-only hostnames (integer IPv4 literals)
             if d.chars().all(|c| c.is_ascii_digit()) {
                 return false;

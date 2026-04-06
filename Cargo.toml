@@ -23,6 +23,7 @@ uuid = { version = "1", features = ["v4"] }
 lazy_static = "1"
 urlencoding = "2.1"
 regex = "1"
+dns-lookup = "3.0.1"
 
 [profile.release]
 opt-level = 3
