@@ -6,7 +6,6 @@ use crate::{
         csdn::fetch_csdn_article, github::fetch_github_readme, juejin::fetch_juejin_article,
         linuxdo::fetch_linuxdo_article, web::fetch_web_content, zhihu::fetch_zhihu_article,
     },
-    utils::url_safety::is_public_http_url,
 };
 use rmcp::{
     ServerHandler,
@@ -101,9 +100,6 @@ impl WebSearchHandler {
     )]
     pub async fn fetch_web_content_tool(&self, p: Parameters<FetchUrlParams>) -> String {
         let params = p.0;
-        if !is_public_http_url(&params.url) {
-            return "URL must be a public HTTP/HTTPS URL.".into();
-        }
         let max_chars = params.max_chars.map(|c| c as usize);
         match fetch_web_content(&params.url, max_chars).await {
             Ok(result) => {
